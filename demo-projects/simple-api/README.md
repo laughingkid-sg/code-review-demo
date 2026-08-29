@@ -13,16 +13,12 @@ A clean, production-style Go REST API for managing a product catalog. Built with
 
 ---
 
-## API Reference
+## Documentation
 
-| Method | Endpoint | Description | Auth Required |
-|---|---|---|---|
-| `GET` | `/api/health` | Service health status and DB check | No |
-| `GET` | `/api/products` | List products (with `page`, `limit`, `category`, `q`) | No |
-| `GET` | `/api/products/{id}` | Get product details by ID | No |
-| `POST` | `/api/products` | Create a new product | Yes (`X-API-Key`) |
-| `PUT` | `/api/products/{id}` | Update an existing product | Yes (`X-API-Key`) |
-| `DELETE` | `/api/products/{id}` | Delete a product by ID | Yes (`X-API-Key`) |
+- **[API Specification & Endpoints](docs/API.md)** — Detailed request/response schemas, error codes, and curl examples.
+- **[Postman Collection](docs/postman_collection.json)** — Ready-to-import Postman v2.1 test suite.
+- **[Product Requirements Document (PRD)](docs/PRD.md)** — Requirements and personas.
+- **[Tech Design Document (TDD)](docs/TDD.md)** — Architecture, database design, and internals.
 
 ---
 

@@ -1,0 +1,277 @@
+{
+	"info": {
+		"_postman_id": "8f8b3df9-906d-4952-bda4-436f56c7104b",
+		"name": "Product Catalog API (Simple API)",
+		"description": "Postman test collection for the Simple Product Catalog Go REST API.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "apiKey",
+			"value": "dev-api-key-12345",
+			"type": "string"
+		},
+		{
+			"key": "productId",
+			"value": "1",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/health",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"health"
+					]
+				},
+				"description": "Verifies server health and SQLite database connectivity."
+			},
+			"response": []
+		},
+		{
+			"name": "List Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/products?page=1&limit=10&category=&q=",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"products"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1",
+							"description": "Page index (1-based)"
+						},
+						{
+							"key": "limit",
+							"value": "10",
+							"description": "Items per page (max 100)"
+						},
+						{
+							"key": "category",
+							"value": "",
+							"description": "Filter by exact category name (e.g. Keyboards)"
+						},
+						{
+							"key": "q",
+							"value": "",
+							"description": "Search query across name and description"
+						}
+					]
+				},
+				"description": "Lists products with optional pagination, keyword search, and category filtering."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Product by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/products/{{productId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"products",
+						"{{productId}}"
+					]
+				},
+				"description": "Retrieves full details of a product by ID."
+			},
+			"response": []
+		},
+		{
+			"name": "Create Product",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "X-API-Key",
+						"value": "{{apiKey}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"sku\": \"PROD-101\",\n    \"name\": \"Wireless Mechanical Keyboard\",\n    \"description\": \"Hot-swappable RGB wireless mechanical keyboard\",\n    \"price\": 89.99,\n    \"stock\": 45,\n    \"category\": \"Keyboards\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/products",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"products"
+					]
+				},
+				"description": "Creates a new product record."
+			},
+			"response": []
+		},
+		{
+			"name": "Update Product",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "X-API-Key",
+						"value": "{{apiKey}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"sku\": \"PROD-101\",\n    \"name\": \"Wireless Mechanical Keyboard V2\",\n    \"description\": \"Upgraded hot-swappable RGB keyboard with sound dampening\",\n    \"price\": 99.99,\n    \"stock\": 50,\n    \"category\": \"Keyboards\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/products/{{productId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"products",
+						"{{productId}}"
+					]
+				},
+				"description": "Updates an existing product record."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Product",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "X-API-Key",
+						"value": "{{apiKey}}"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/api/products/{{productId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"products",
+						"{{productId}}"
+					]
+				},
+				"description": "Deletes a product by ID."
+			},
+			"response": []
+		},
+		{
+			"name": "Error Test - Missing API Key (401)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"sku\": \"UNAUTH-01\",\n    \"name\": \"Unauthorized Product\",\n    \"price\": 10,\n    \"stock\": 1,\n    \"category\": \"Test\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/products",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"products"
+					]
+				},
+				"description": "Verifies that protected mutation endpoints return 401 Unauthorized when X-API-Key is omitted."
+			},
+			"response": []
+		},
+		{
+			"name": "Error Test - Validation Failure (400)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "X-API-Key",
+						"value": "{{apiKey}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"sku\": \"!@#INVALID\",\n    \"name\": \"\",\n    \"price\": -5,\n    \"stock\": -10,\n    \"category\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/products",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"products"
+					]
+				},
+				"description": "Verifies that invalid payload parameters return 400 Bad Request."
+			},
+			"response": []
+		}
+	]
+}
