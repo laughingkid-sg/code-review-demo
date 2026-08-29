@@ -31,6 +31,11 @@ func Load() *Config {
 	}
 }
 
+// LoadConfig is kept for compatibility with the application bootstrap.
+func LoadConfig() *Config {
+	return Load()
+}
+
 func getEnv(key, defaultVal string) string {
 	if val, ok := os.LookupEnv(key); ok && val != "" {
 		return val
