@@ -1,0 +1,111 @@
+name: Aggregate Review
+
+on:
+  workflow_run:
+    workflows:
+      - Code Rules Review
+      - Business Rules Review
+    types:
+      - completed
+
+permissions:
+  actions: read
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  aggregate-review:
+    name: Aggregate review
+    if: >-
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout implementation repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Resolve matching PR review runs
+        id: review-runs
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          pr_number="$(gh api "repos/${REPOSITORY}/commits/${HEAD_SHA}/pulls" \
+            -H "Accept: application/vnd.github+json" \
+            --jq '.[0].number // ""')"
+          if [ -z "$pr_number" ]; then
+            echo "No pull request found for ${HEAD_SHA}."
+            exit 0
+          fi
+
+          code_run=""
+          business_run=""
+          for _ in 1 2 3 4 5 6; do
+            code_run="$(gh run list --repo "${REPOSITORY}" --workflow "Code Rules Review" --commit "${HEAD_SHA}" \
+              --status completed --limit 10 --json databaseId,conclusion,event \
+              --jq '[.[] | select(.event == "pull_request" and .conclusion == "success")][0].databaseId // ""')"
+            business_run="$(gh run list --repo "${REPOSITORY}" --workflow "Business Rules Review" --commit "${HEAD_SHA}" \
+              --status completed --limit 10 --json databaseId,conclusion,event \
+              --jq '[.[] | select(.event == "pull_request" and .conclusion == "success")][0].databaseId // ""')"
+            if [ -n "$code_run" ] && [ -n "$business_run" ]; then
+              break
+            fi
+            sleep 20
+          done
+
+          if [ -z "$code_run" ] || [ -z "$business_run" ]; then
+            echo "Both review artifacts are not available yet."
+            exit 0
+          fi
+
+          {
+            echo "pr-number=${pr_number}"
+            echo "head-sha=${HEAD_SHA}"
+            echo "code-run=${code_run}"
+            echo "business-run=${business_run}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Download review artifacts
+        if: steps.review-runs.outputs.pr-number != ''
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CODE_RUN: ${{ steps.review-runs.outputs.code-run }}
+          BUSINESS_RUN: ${{ steps.review-runs.outputs.business-run }}
+        run: |
+          mkdir -p aggregate-inputs/code aggregate-inputs/business
+          gh run download "${CODE_RUN}" --name code-rules-review --dir aggregate-inputs/code
+          gh run download "${BUSINESS_RUN}" --name business-rules-review --dir aggregate-inputs/business
+
+      - name: Run aggregate review
+        if: steps.review-runs.outputs.pr-number != ''
+        uses: laughingkid-sg/code-review-agent@main
+        with:
+          mode: aggregate
+          config-path: .code-review.yml
+          repository-path: .
+          knowledgebase-path: code-review-knowledgebase
+          output-path: .code-review/artifacts/aggregate-review.md
+          provider: mock
+          comment-mode: pr_comment
+          pull-request-number: ${{ steps.review-runs.outputs.pr-number }}
+          head-sha: ${{ steps.review-runs.outputs.head-sha }}
+          aggregate-inputs: |
+            aggregate-inputs/code/.code-review/artifacts/code-rules-review.md
+            aggregate-inputs/business/.code-review/artifacts/business-rules-review.md
+
+      - name: Upload aggregate review artifact
+        if: steps.review-runs.outputs.pr-number != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: aggregate-review
+          path: .code-review/artifacts/aggregate-review.md
+          if-no-files-found: error
