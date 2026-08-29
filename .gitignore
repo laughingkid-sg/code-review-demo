@@ -1,0 +1,45 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Go build artifacts
+/bin/
+/dist/
+
+# Test binary
+*.test
+
+# Go coverage
+*.out
+coverage.html
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+*.env.local
+
+# Database files
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+
+# Docker
+docker-compose.override.yml
+
+# Temporary files
+tmp/
+temp/
