@@ -23,7 +23,7 @@ This repository contains 3 Go backend API projects that serve as **runtime code 
 
 ### Prerequisites
 
-- Go 1.23 installed
+- Go 1.27 installed
 - Docker and Docker Compose installed
 - Git configured
 
