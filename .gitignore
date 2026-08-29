@@ -50,3 +50,7 @@ output/
 
 # Local project instructions
 INSTRUCTIONS.md
+
+# Code review generated artifacts
+.code-review/
+output/
