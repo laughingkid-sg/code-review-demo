@@ -30,13 +30,12 @@ flowchart LR
   PR --> Biz[Business Rules Review workflow]
   Code --> KB[Checkout code-review-knowledgebase]
   Biz --> Docs[Read PRD/TDD document set]
-  KB --> Agent[code-review-agent]
-  Docs --> Agent
+  KB --> ReviewAgent[code-review-agent<br/>code/business modes]
+  Docs --> ReviewAgent
 
   subgraph PRSurface[GitHub Pull Request]
     Inline[Exact-line inline review comments]
-    Summary[Per-workflow managed summary comments]
-    Final[Final aggregate managed summary comment]
+    Links[Managed artifact links comment]
   end
 
   subgraph ActionSurface[GitHub Actions Artifacts]
@@ -44,13 +43,14 @@ flowchart LR
     Transcripts[LLM request/response transcripts]
   end
 
-  Agent --> Inline
-  Agent --> Summary
-  Agent --> Artifacts
-  Agent --> Transcripts
+  ReviewAgent --> Inline
+  ReviewAgent --> Artifacts
+  ReviewAgent --> Transcripts
   Code --> Aggregate[Aggregate Review workflow]
   Biz --> Aggregate
-  Aggregate --> Final
+  Artifacts --> Aggregate
+  Aggregate --> AggregateAgent[code-review-agent<br/>aggregate mode]
+  AggregateAgent --> Links
 ```
 
 ## Workflow Flow
@@ -68,10 +68,10 @@ sequenceDiagram
   GH->>Agent: Run business-rules workflow
   Agent->>LLM: Send compact rules, changed code, or PRD/TDD summary
   LLM-->>Agent: Return findings and corrected snippets
-  Agent->>GH: Post/update inline review comments
+  Agent->>GH: Post/update exact-line inline review comments
   Agent->>GH: Upload markdown artifacts and transcripts
   GH->>Agent: Run aggregate workflow after both artifacts exist
-  Agent->>GH: Post/update aggregate summary comment
+  Agent->>GH: Post/update lightweight artifact-links comment
 ```
 
 ## Configuration
@@ -88,9 +88,9 @@ sequenceDiagram
 
 - `code-rules`: checks changed Go files against layered markdown coding rules.
 - `business-rules`: summarizes affected PRD/TDD documents and checks implementation logic against the summary.
-- `aggregate`: combines the code-rule and business-rule artifacts into one final managed PR summary.
+- `aggregate`: combines the code-rule and business-rule artifacts into an aggregate artifact, then posts one lightweight PR comment linking to the review artifacts.
 
-Code-rule and business-rule workflows run in parallel. Both modes can post exact-line PR review comments. The aggregate workflow posts only a final summary comment.
+Code-rule and business-rule workflows run in parallel. Both modes post exact-line PR review comments only. Full review markdown, PRD/TDD summaries, and LLM transcripts stay in GitHub Actions artifacts for debugging.
 
 ## Credentials
 
