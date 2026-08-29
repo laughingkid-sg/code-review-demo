@@ -4,6 +4,8 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - "demo-projects/**/*.go"
     types:
       - opened
       - synchronize
@@ -55,14 +57,14 @@ jobs:
         env:
           OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL || vars.OPENAI_BASE_URL || 'https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1' }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          OPENAI_MODEL: ${{ secrets.OPENAI_MODEL || vars.OPENAI_MODEL || 'qwen3.6-flash' }}
+          OPENAI_MODEL: ${{ secrets.OPENAI_MODEL || vars.OPENAI_MODEL }}
         with:
           mode: code-rules
           config-path: .code-review.yml
           repository-path: .
           knowledgebase-path: code-review-knowledgebase
           output-path: .code-review/artifacts/code-rules-review.md
-          provider: qwen
+          provider: llm
           comment-mode: pr_comment
           audit-dir: output
           changed-files: ${{ steps.changed-files.outputs.files }}

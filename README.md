@@ -9,7 +9,7 @@ This repo owns the demo Go services, PRD/TD source documents, `.code-review.yml`
 - Provide realistic Go codebases for validating an automated PR review agent.
 - Store PRD/TDD markdown documents used by the business-rule review pipeline.
 - Configure knowledgebase layers and document sets through `.code-review.yml`.
-- Run GitHub Actions workflows when a PR targets `main`.
+- Run GitHub Actions workflows when a PR targets `main` and changes Go source files.
 - Upload review outputs and LLM audit transcripts as CI artifacts.
 
 ## Demo Projects
@@ -26,18 +26,31 @@ Each active project includes PRD, TDD, API docs, Postman collection, Docker file
 
 ```mermaid
 flowchart LR
-  PR[Pull request to main] --> Code[Code Rules Review]
-  PR --> Biz[Business Rules Review]
+  PR[Pull request to main<br/>with Go file changes] --> Code[Code Rules Review workflow]
+  PR --> Biz[Business Rules Review workflow]
   Code --> KB[Checkout code-review-knowledgebase]
   Biz --> Docs[Read PRD/TDD document set]
   KB --> Agent[code-review-agent]
   Docs --> Agent
-  Agent --> Inline[Exact-line PR review comments]
-  Agent --> Summary[Managed PR summary comments]
-  Agent --> Artifacts[Review artifacts and output transcripts]
-  Code --> Aggregate[Aggregate Review]
+
+  subgraph PRSurface[GitHub Pull Request]
+    Inline[Exact-line inline review comments]
+    Summary[Per-workflow managed summary comments]
+    Final[Final aggregate managed summary comment]
+  end
+
+  subgraph ActionSurface[GitHub Actions Artifacts]
+    Artifacts[Review markdown artifacts]
+    Transcripts[LLM request/response transcripts]
+  end
+
+  Agent --> Inline
+  Agent --> Summary
+  Agent --> Artifacts
+  Agent --> Transcripts
+  Code --> Aggregate[Aggregate Review workflow]
   Biz --> Aggregate
-  Aggregate --> Final[Final managed PR summary]
+  Aggregate --> Final
 ```
 
 ## Workflow Flow
@@ -48,8 +61,8 @@ sequenceDiagram
   participant GH as GitHub Actions
   participant Agent as code-review-agent
   participant KB as code-review-knowledgebase
-  participant LLM as Qwen API
-  Dev->>GH: Open PR or push commit to PR targeting main
+  participant LLM as OpenAI-compatible LLM API
+  Dev->>GH: Open PR or push commit to PR targeting main with Go changes
   GH->>KB: Checkout configured rule layers
   GH->>Agent: Run code-rules workflow
   GH->>Agent: Run business-rules workflow
@@ -85,7 +98,7 @@ The demo uses Alibaba Model Studio through the OpenAI-compatible API surface.
 
 - `OPENAI_API_KEY`: GitHub repository secret.
 - `OPENAI_BASE_URL`: GitHub repository variable, with workflow fallback to the Alibaba compatible endpoint.
-- `OPENAI_MODEL`: GitHub repository variable, with workflow fallback to the configured Qwen model.
+- `OPENAI_MODEL`: GitHub repository variable naming the configured LLM model.
 - `KNOWLEDGEBASE_REPO_TOKEN`: optional secret for checking out a private knowledgebase repo.
 
 ## Generated Artifacts
