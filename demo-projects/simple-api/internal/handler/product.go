@@ -71,6 +71,7 @@ func (h *ProductHandler) Create(w http.ResponseWriter, r *http.Request) {
 	var req model.CreateProductRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		writeError(w, http.StatusBadRequest, "invalid request body")
+		return
 	}
 
 	if err := req.Validate(); err != nil {
@@ -112,7 +113,6 @@ func (h *ProductHandler) Update(w http.ResponseWriter, r *http.Request) {
 	var req model.UpdateProductRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		writeError(w, http.StatusBadRequest, "invalid request body")
-		return
 	}
 
 	if err := req.Validate(); err != nil {
