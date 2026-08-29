@@ -1,0 +1,45 @@
+version: 1
+
+repository:
+  name: code-review-demo
+  department: demo
+  project: demo-project
+  languages:
+    - go
+
+knowledge:
+  repository: code-review-knowledgebase
+  layers:
+    - common/go
+    - demo/go
+    - demo/demo-project/go
+  disabled_rules: []
+
+documents:
+  summary_artifact_dir: .code-review/artifacts
+  sets:
+    - id: simple-api
+      name: Simple API - Product Catalog
+      paths:
+        prd: demo-projects/simple-api/docs/PRD.md
+        td: demo-projects/simple-api/docs/TDD.md
+      code_paths:
+        - demo-projects/simple-api
+    - id: medium-api
+      name: Medium API - Order Management
+      paths:
+        prd: demo-projects/medium-api/docs/PRD.md
+        td: demo-projects/medium-api/docs/TDD.md
+      code_paths:
+        - demo-projects/medium-api
+
+reviews:
+  code_rules:
+    enabled: true
+    output: .code-review/artifacts/code-rules-review.md
+  business_rules:
+    enabled: true
+    output: .code-review/artifacts/business-rules-review.md
+
+github:
+  comment_mode: dry_run
