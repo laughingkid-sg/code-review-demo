@@ -13,7 +13,7 @@ This repository contains 3 Go backend API projects that serve as **runtime code 
 - [x] Repository initialized with `.gitignore`, `.gitattributes`, `README.md`
 - [x] Implementation plan written (`docs/IMPLEMENTATION_PLAN.md`)
 - [x] Handover instructions written (this file)
-- [ ] **Phase 1**: Simple API — Product Catalog (`demo-projects/simple-api/`)
+- [x] **Phase 1**: Simple API — Product Catalog (`demo-projects/simple-api/`)
 - [ ] **Phase 2**: Medium API — Order Management (`demo-projects/medium-api/`)
 - [ ] **Phase 3**: Complex API — Marketplace Platform (`demo-projects/complex-api/`)
 
@@ -47,6 +47,7 @@ This repository contains 3 Go backend API projects that serve as **runtime code 
    - Entry point (`cmd/server/main.go`)
    - Docker files (`Dockerfile`, `docker-compose.yml`)
    - Project README and `.env.example`
+   - API specification doc (`docs/API.md`) and Postman collection (`docs/postman_collection.json`)
 
 4. **Verify each project** before moving to the next:
    ```bash

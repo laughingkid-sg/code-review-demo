@@ -35,7 +35,9 @@ A straightforward CRUD REST API for managing a product catalog. Uses Go standard
 simple-api/
 ├── docs/
 │   ├── PRD.md
-│   └── TDD.md
+│   ├── TDD.md
+│   ├── API.md
+│   └── postman_collection.json
 ├── cmd/
 │   └── server/
 │       └── main.go
@@ -84,7 +86,9 @@ A multi-layered REST API for managing customers and orders. Uses Gin, PostgreSQL
 medium-api/
 ├── docs/
 │   ├── PRD.md
-│   └── TDD.md
+│   ├── TDD.md
+│   ├── API.md
+│   └── postman_collection.json
 ├── cmd/
 │   └── server/
 │       └── main.go
@@ -164,7 +168,9 @@ A full-featured marketplace platform with multi-tenant vendor support, async eve
 complex-api/
 ├── docs/
 │   ├── PRD.md
-│   └── TDD.md
+│   ├── TDD.md
+│   ├── API.md
+│   └── postman_collection.json
 ├── cmd/
 │   └── server/
 │       └── main.go
@@ -337,7 +343,7 @@ Each change is a small, focused commit following [Conventional Commits](https://
 | 39 | `test(medium-api): add cache unit tests` |
 | 40 | `feat(medium-api): add server entry point` |
 | 41 | `feat(medium-api): add Dockerfile and docker-compose` |
-| 42 | `docs(medium-api): add README and .env.example` |
+| 42 | `docs(medium-api): add README, API docs, Postman collection and .env.example` |
 
 ### Phase 3: Complex API — Marketplace Platform
 | # | Commit Message |
@@ -375,7 +381,7 @@ Each change is a small, focused commit following [Conventional Commits](https://
 | 73 | `test(complex-api): add cache tests` |
 | 74 | `feat(complex-api): add server entry point` |
 | 75 | `feat(complex-api): add Dockerfile and docker-compose` |
-| 76 | `docs(complex-api): add README and .env.example` |
+| 76 | `docs(complex-api): add README, API docs, Postman collection and .env.example` |
 
 ---
 

@@ -18,9 +18,11 @@ These projects are intentionally clean, production-style Go services. They exist
 
 - **`docs/PRD.md`** — Product Requirements Document
 - **`docs/TDD.md`** — Tech Design Document
+- **`docs/API.md`** — API Specification & Endpoint Documentation
+- **`docs/postman_collection.json`** — Postman v2.1 Collection for API testing
 - **`README.md`** — Quick start and API overview
 - **`Dockerfile`** + **`docker-compose.yml`** — Docker-runnable
-- **Unit tests** — Reasonable coverage
+- **Unit tests** — Comprehensive test coverage
 - **`.env.example`** — Environment variable reference
 
 ## Quick Start
