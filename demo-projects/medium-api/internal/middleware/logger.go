@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"encoding/json"
 	"log"
 	"time"
 
@@ -26,17 +27,21 @@ func LoggerMiddleware() gin.HandlerFunc {
 			path = path + "?" + rawQuery
 		}
 
+		entry := map[string]any{
+			"timestamp":  time.Now().UTC().Format(time.RFC3339),
+			"status":     statusCode,
+			"latency_ms": latency.Milliseconds(),
+			"client_ip":  clientIP,
+			"method":     method,
+			"path":       path,
+		}
+
 		if errorMessage != "" {
-			log.Printf("[GIN] %s | %3d | %13v | %15s | %-7s %s | error: %s",
-				time.Now().Format("2006/01/02 - 15:04:05"),
-				statusCode,
-				latency,
-				clientIP,
-				method,
-				path,
-				errorMessage,
-			)
-		} else {
+			entry["error"] = errorMessage
+		}
+
+		payload, err := json.Marshal(entry)
+		if err != nil {
 			log.Printf("[GIN] %s | %3d | %13v | %15s | %-7s %s",
 				time.Now().Format("2006/01/02 - 15:04:05"),
 				statusCode,
@@ -45,6 +50,9 @@ func LoggerMiddleware() gin.HandlerFunc {
 				method,
 				path,
 			)
+			return
 		}
+
+		log.Print(string(payload))
 	}
 }
