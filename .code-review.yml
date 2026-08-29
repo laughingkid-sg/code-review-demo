@@ -7,6 +7,12 @@ repository:
   languages:
     - go
 
+skills:
+  enabled:
+    - code-review-findings
+    - business-requirement-tracing
+    - github-inline-comments
+
 knowledge:
   repository: code-review-knowledgebase
   layers:

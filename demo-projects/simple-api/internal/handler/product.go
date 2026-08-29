@@ -84,7 +84,7 @@ func (h *ProductHandler) Create(w http.ResponseWriter, r *http.Request) {
 		Name:        req.Name,
 		Description: req.Description,
 		Price:       req.Price,
-		Stock:       req.Stock,
+		Stock:       0,
 		Category:    req.Category,
 	}
 

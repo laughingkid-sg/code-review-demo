@@ -87,7 +87,7 @@ jobs:
 
       - name: Run aggregate review
         if: steps.review-runs.outputs.pr-number != ''
-        uses: laughingkid-sg/code-review-agent@main
+        uses: laughingkid-sg/code-review-agent@codex/app-skills-support
         with:
           mode: aggregate
           config-path: .code-review.yml
