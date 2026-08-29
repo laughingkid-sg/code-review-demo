@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: laughingkid-sg/code-review-knowledgebase
-          ref: master
+          ref: main
           path: code-review-knowledgebase
           token: ${{ secrets.KNOWLEDGEBASE_REPO_TOKEN || github.token }}
 
