@@ -101,6 +101,10 @@ jobs:
           aggregate-inputs: |
             aggregate-inputs/code/.code-review/artifacts/code-rules-review.md
             aggregate-inputs/business/.code-review/artifacts/business-rules-review.md
+          artifact-links: |
+            Code Rules Review artifacts|${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ steps.review-runs.outputs.code-run }}
+            Business Rules Review artifacts|${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ steps.review-runs.outputs.business-run }}
+            Aggregate Review artifacts|${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
       - name: Upload aggregate review artifact
         if: steps.review-runs.outputs.pr-number != ''
