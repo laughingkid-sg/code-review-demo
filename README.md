@@ -113,10 +113,27 @@ Generated files are ignored locally and uploaded by CI:
 
 ## Future Improvements
 
-- Export finding lifecycle events to an external Hive table for analysis.
-- Track consumed findings when a later push changes the flagged code.
-- Track stale, unresolved, and resolved generated comments.
-- Add optional developer feedback signals such as upvote/downvote reactions.
-- Build dashboards for rule effectiveness, false-positive rate, consumption rate, and non-consumption rate.
-- Add project-management integration to fetch PRD/TD links from systems such as Jira instead of reading local markdown files.
-- Promote or merge duplicate rules based on measured effectiveness across repositories.
+Detailed implementation plans live in the reusable agent repo: [code-review-agent/docs/future-improvements/README.md](https://github.com/laughingkid-sg/code-review-agent/blob/main/docs/future-improvements/README.md).
+
+| ID | Improvement | Suggested Priority | Plan |
+| --- | --- | --- | --- |
+| FI-001 | Review filter stage for precision | P1 | [Implementation plan](https://github.com/laughingkid-sg/code-review-agent/blob/main/docs/future-improvements/README.md#fi-001-review-filter-stage-for-precision) |
+| FI-002 | Diff-aware context preparation | P1 | [Implementation plan](https://github.com/laughingkid-sg/code-review-agent/blob/main/docs/future-improvements/README.md#fi-002-diff-aware-context-preparation) |
+| FI-003 | Finding lifecycle artifacts | P1 | [Implementation plan](https://github.com/laughingkid-sg/code-review-agent/blob/main/docs/future-improvements/README.md#fi-003-finding-lifecycle-artifacts) |
+| FI-004 | Aggregate summary from publish results | P1 | [Implementation plan](https://github.com/laughingkid-sg/code-review-agent/blob/main/docs/future-improvements/README.md#fi-004-aggregate-summary-from-publish-results) |
+| FI-005 | Finding analytics export to Hive | P2 | [Implementation plan](https://github.com/laughingkid-sg/code-review-agent/blob/main/docs/future-improvements/README.md#fi-005-finding-analytics-export-to-hive) |
+| FI-006 | Consumption and non-consumption metrics | P2 | [Implementation plan](https://github.com/laughingkid-sg/code-review-agent/blob/main/docs/future-improvements/README.md#fi-006-consumption-and-non-consumption-metrics) |
+| FI-007 | Developer feedback signals | P2 | [Implementation plan](https://github.com/laughingkid-sg/code-review-agent/blob/main/docs/future-improvements/README.md#fi-007-developer-feedback-signals) |
+| FI-008 | Rule effectiveness dashboard | P2 | [Implementation plan](https://github.com/laughingkid-sg/code-review-agent/blob/main/docs/future-improvements/README.md#fi-008-rule-effectiveness-dashboard) |
+| FI-009 | Project-management document integration | P2 | [Implementation plan](https://github.com/laughingkid-sg/code-review-agent/blob/main/docs/future-improvements/README.md#fi-009-project-management-document-integration) |
+| FI-010 | Versioned cross-repo contracts | P2 | [Implementation plan](https://github.com/laughingkid-sg/code-review-agent/blob/main/docs/future-improvements/README.md#fi-010-versioned-cross-repo-contracts) |
+| FI-011 | Knowledgebase contribution guide | P2 | [Implementation plan](https://github.com/laughingkid-sg/code-review-agent/blob/main/docs/future-improvements/README.md#fi-011-knowledgebase-contribution-guide) |
+| FI-012 | Rule duplicate detection and promotion | P2 | [Implementation plan](https://github.com/laughingkid-sg/code-review-agent/blob/main/docs/future-improvements/README.md#fi-012-rule-duplicate-detection-and-promotion) |
+| FI-013 | Historical benchmark suite | P2 | [Implementation plan](https://github.com/laughingkid-sg/code-review-agent/blob/main/docs/future-improvements/README.md#fi-013-historical-benchmark-suite) |
+| FI-014 | Governance operating playbook | P3 | [Implementation plan](https://github.com/laughingkid-sg/code-review-agent/blob/main/docs/future-improvements/README.md#fi-014-governance-operating-playbook) |
+| FI-015 | Multi-language expansion | P3 | [Implementation plan](https://github.com/laughingkid-sg/code-review-agent/blob/main/docs/future-improvements/README.md#fi-015-multi-language-expansion) |
+| FI-016 | Provider capability detection | P2 | [Implementation plan](https://github.com/laughingkid-sg/code-review-agent/blob/main/docs/future-improvements/README.md#fi-016-provider-capability-detection) |
+| FI-017 | Optional developer notifications | P3 | [Implementation plan](https://github.com/laughingkid-sg/code-review-agent/blob/main/docs/future-improvements/README.md#fi-017-optional-developer-notifications) |
+| FI-018 | Guided repair patch suggestions | P3 | [Implementation plan](https://github.com/laughingkid-sg/code-review-agent/blob/main/docs/future-improvements/README.md#fi-018-guided-repair-patch-suggestions) |
+| FI-019 | Public-repo safety model | P2 | [Implementation plan](https://github.com/laughingkid-sg/code-review-agent/blob/main/docs/future-improvements/README.md#fi-019-public-repo-safety-model) |
+| FI-020 | Category and taxonomy metadata | P3 | [Implementation plan](https://github.com/laughingkid-sg/code-review-agent/blob/main/docs/future-improvements/README.md#fi-020-category-and-taxonomy-metadata) |
