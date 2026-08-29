@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   code-rules-review:
-    name: Code rules dry-run
+    name: Code rules review
     if: >-
       github.event.pull_request.user.login == 'laughingkid-sg' &&
       github.event.pull_request.head.repo.full_name == github.repository
@@ -51,19 +51,26 @@ jobs:
 
       - name: Run code rules review
         uses: laughingkid-sg/code-review-agent@main
+        env:
+          OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL || vars.OPENAI_BASE_URL || 'https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1' }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ secrets.OPENAI_MODEL || vars.OPENAI_MODEL || 'qwen3.6-flash' }}
         with:
           mode: code-rules
           config-path: .code-review.yml
           repository-path: .
           knowledgebase-path: code-review-knowledgebase
           output-path: .code-review/artifacts/code-rules-review.md
-          provider: mock
+          provider: qwen
           comment-mode: dry_run
+          audit-dir: output
           changed-files: ${{ steps.changed-files.outputs.files }}
 
       - name: Upload code rules artifact
         uses: actions/upload-artifact@v4
         with:
           name: code-rules-review
-          path: .code-review/artifacts/code-rules-review.md
+          path: |
+            .code-review/artifacts/code-rules-review.md
+            output/code-rules-review.md
           if-no-files-found: error
