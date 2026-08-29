@@ -50,7 +50,7 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       - name: Run business rules review
-        uses: laughingkid-sg/code-review-agent@codex/phase-2-dry-run-engine
+        uses: laughingkid-sg/code-review-agent@main
         with:
           mode: business-rules
           config-path: .code-review.yml
