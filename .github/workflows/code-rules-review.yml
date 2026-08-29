@@ -11,7 +11,8 @@ on:
 
 permissions:
   contents: read
-  pull-requests: read
+  issues: write
+  pull-requests: write
 
 jobs:
   code-rules-review:
@@ -62,7 +63,7 @@ jobs:
           knowledgebase-path: code-review-knowledgebase
           output-path: .code-review/artifacts/code-rules-review.md
           provider: qwen
-          comment-mode: dry_run
+          comment-mode: pr_comment
           audit-dir: output
           changed-files: ${{ steps.changed-files.outputs.files }}
 
