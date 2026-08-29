@@ -2,6 +2,8 @@ name: Code Rules Review
 
 on:
   pull_request:
+    branches:
+      - main
     types:
       - opened
       - synchronize
@@ -14,6 +16,9 @@ permissions:
 jobs:
   code-rules-review:
     name: Code rules dry-run
+    if: >-
+      github.event.pull_request.user.login == 'laughingkid-sg' &&
+      github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
       - name: Checkout implementation repo
