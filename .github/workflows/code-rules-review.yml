@@ -1,0 +1,69 @@
+name: Code Rules Review
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  code-rules-review:
+    name: Code rules dry-run
+    if: >-
+      github.event.pull_request.user.login == 'laughingkid-sg' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout implementation repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout knowledgebase
+        uses: actions/checkout@v4
+        with:
+          repository: laughingkid-sg/code-review-knowledgebase
+          ref: main
+          path: code-review-knowledgebase
+          token: ${{ secrets.KNOWLEDGEBASE_REPO_TOKEN || github.token }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Collect changed files
+        id: changed-files
+        shell: bash
+        run: |
+          {
+            echo "files<<EOF"
+            git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Run code rules review
+        uses: laughingkid-sg/code-review-agent@main
+        with:
+          mode: code-rules
+          config-path: .code-review.yml
+          repository-path: .
+          knowledgebase-path: code-review-knowledgebase
+          output-path: .code-review/artifacts/code-rules-review.md
+          provider: mock
+          comment-mode: dry_run
+          changed-files: ${{ steps.changed-files.outputs.files }}
+
+      - name: Upload code rules artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-rules-review
+          path: .code-review/artifacts/code-rules-review.md
+          if-no-files-found: error
