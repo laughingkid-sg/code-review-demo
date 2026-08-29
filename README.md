@@ -4,6 +4,12 @@ Implementation repository for the intelligent code review CI/CD demo.
 
 This repo owns the demo Go services, PRD/TD source documents, `.code-review.yml`, GitHub Actions workflows, and generated CI artifacts. The reusable review logic lives in `code-review-agent`; coding rules live in `code-review-knowledgebase`.
 
+## References
+
+1. Agent / GitHub Action - [https://github.com/laughingkid-sg/code-review-agent](https://github.com/laughingkid-sg/code-review-agent)
+2. Implementation Example - [https://github.com/laughingkid-sg/code-review-demo](https://github.com/laughingkid-sg/code-review-demo)
+3. Knowledge Base Example - [https://github.com/laughingkid-sg/code-review-knowledgebase](https://github.com/laughingkid-sg/code-review-knowledgebase)
+
 ## Repository Role
 
 - Provide realistic Go codebases for validating an automated PR review agent.

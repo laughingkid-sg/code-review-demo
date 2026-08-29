@@ -44,6 +44,10 @@ docker-compose.override.yml
 tmp/
 temp/
 
+# Code review generated artifacts
+.code-review/
+output/
+
 # Local project instructions
 INSTRUCTIONS.md
 

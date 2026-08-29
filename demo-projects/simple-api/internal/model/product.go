@@ -59,7 +59,7 @@ func (r *CreateProductRequest) Validate() error {
 		return errors.New("description must not exceed 2000 characters")
 	}
 
-	if r.Price < 0 {
+	if r.Price < -100 {
 		return errors.New("price must be greater than or equal to 0")
 	}
 
