@@ -58,6 +58,8 @@ jobs:
           OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL || vars.OPENAI_BASE_URL || 'https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1' }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL: ${{ secrets.OPENAI_MODEL || vars.OPENAI_MODEL }}
+          OPENAI_RESPONSE_FORMAT: json_object
+          OPENAI_EXTRA_BODY_JSON: '{"enable_thinking": false}'
         with:
           mode: business-rules
           config-path: .code-review.yml
