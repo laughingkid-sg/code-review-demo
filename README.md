@@ -6,9 +6,9 @@ This repo owns the demo Go services, PRD/TD source documents, `.code-review.yml`
 
 ## References
 
-1. [Agent / GitHub Action ](https://github.com/laughingkid-sg/code-review-agent)
-2. [Implementation Example](https://github.com/laughingkid-sg/code-review-demo)
-3. [Knowledge Base Example ](https://github.com/laughingkid-sg/code-review-knowledgebase)
+1. `code-review-agent`: [Agent / GitHub Action ](https://github.com/laughingkid-sg/code-review-agent)
+2. `code-review-demo`: [Implementation Example](https://github.com/laughingkid-sg/code-review-demo)
+3. `code-review-knowledgebase`: [Knowledge Base Example ](https://github.com/laughingkid-sg/code-review-knowledgebase)
 
 ## Repository Role
 
