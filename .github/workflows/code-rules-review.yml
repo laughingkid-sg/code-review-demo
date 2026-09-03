@@ -53,11 +53,13 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       - name: Run code rules review
-        uses: laughingkid-sg/code-review-agent@main
+        uses: laughingkid-sg/code-review-agent@codex/app-skills-support
         env:
           OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL || vars.OPENAI_BASE_URL || 'https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1' }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL: ${{ secrets.OPENAI_MODEL || vars.OPENAI_MODEL }}
+          OPENAI_RESPONSE_FORMAT: json_object
+          OPENAI_EXTRA_BODY_JSON: '{"enable_thinking": false}'
         with:
           mode: code-rules
           config-path: .code-review.yml
@@ -68,6 +70,9 @@ jobs:
           comment-mode: pr_comment
           audit-dir: output
           changed-files: ${{ steps.changed-files.outputs.files }}
+          skills: |
+            code-review-findings
+            github-inline-comments
 
       - name: Upload code rules artifact
         uses: actions/upload-artifact@v4
